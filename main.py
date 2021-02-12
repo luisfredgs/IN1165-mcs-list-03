@@ -21,7 +21,6 @@ import seaborn as sns
 import numpy as np
 import time
 from utils import *
-from pruning import *
 from datasets import *
 import argparse
 
