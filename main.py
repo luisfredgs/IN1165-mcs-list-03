@@ -30,14 +30,14 @@ n_splits = 10
 
 def run(args):
     
-    hardnesses = args.hardnesses # easy, all_instances    
+    hardness = args.hardness # easy, all_instances    
     n_estimators = args.n_estimators
     base_learner = Perceptron(max_iter=100)
     print("Using %d classifiers." % n_estimators)
     if args.dataset == 'kc2':
         ds_name, X, Y = dataset_kc2()
     else:
-        ds_name, X, Y = dataset_pc1()
+        ds_name, X, Y = dataset_jm1()
 
 
     skf = StratifiedKFold(n_splits=n_splits, random_state=seed, shuffle=True)
@@ -50,13 +50,20 @@ def run(args):
         X_train, X_test = X[train_index], X[test_index]
         y_train, y_test = Y[train_index], Y[test_index]        
 
-        # train classifiers
+        #train_perc = 0.7
+        #split_point = int(train_perc*len(train_index))
+        # valid_index = train_index[split_point:]
+        # train_index = train_index[:split_point]
+        # X_train, X_valid, X_test = X[train_index], X[valid_index], X[test_index]
+        # y_train, y_valid, y_test = Y[train_index], Y[valid_index], Y[test_index]
+        #print("TRAIN:", train_index, "VALID:", valid_index, "TEST:", test_index)
+
+        
         X_train, X_valid, y_train, y_valid = train_test_split(X_train, y_train, 
-                                            test_size=0.2, random_state=seed)
+                                            test_size=0.3, random_state=seed)
         pool_classifiers.fit(X_train, y_train)    
         
-        validation_data, validation_labels = get_validation_data(X_valid, y_valid, 0.5, hardnesses=hardnesses)
-
+        validation_data, validation_labels = get_validation_data(X_valid, y_valid, 0.5, hardness=hardness)
 
         dynamic_selection_algorithm = None
         try:        
@@ -92,7 +99,7 @@ def run(args):
                 acc=acc,
                 roc=roc)    
 
-    output = Parallel(n_jobs=-1, verbose=100, pre_dispatch='1.5*n_jobs')(
+    output = Parallel(n_jobs=-1, verbose=0, pre_dispatch='1.5*n_jobs')(
         delayed(train)(train_index, test_index) for train_index, test_index in skf.split(X, Y))
 
     if len(output) == n_splits:
@@ -104,17 +111,27 @@ def run(args):
 
         # Results       
         metric_results = pd.DataFrame(results)
-        #metric_results.to_csv("results/%s_summary_metrics_all_folds_%s_%s.csv" % (ds_name, hardnesses, label_pruning_save), index=False)
+        metric_results.to_csv("results/all_folds_%s_%s_%s.csv" % (ds_name, hardness, str(args.dynamic_algorithm)), index=False)
 
         print(metric_results.mean())
-        #metric_results.mean().to_csv("results/%s_summary_metrics_average_folds_%s_%s.csv" % (ds_name, hardnesses, label_pruning_save))
+        new_df = metric_results.mean()
+        new_df['dataset'] = args.dataset
+        new_df['validation'] = hardness
+        if args.dynamic_selection == True and args.dynamic_algorithm is not None:
+            new_df['dynamic_algorithm'] = args.dynamic_algorithm
+        else:
+            new_df['dynamic_algorithm'] = '-'
+        
+        new_df = pd.DataFrame(dict(zip(new_df.index, [[i] for i in new_df.values])))
+        print(new_df)
+        new_df.to_csv("results/average_folds_%s_%s_%s.csv" % (ds_name, hardness, str(args.dynamic_algorithm)))
         
 
 if __name__ == '__main__':        
 
-    parser = argparse.ArgumentParser(description='Pruning classifiers')
+    parser = argparse.ArgumentParser(description='Dynamic classifiers selecion')
 
-    parser.add_argument('--hardnesses', dest='hardnesses',
+    parser.add_argument('--hardness', dest='hardness',
                     default='all_instances', help='Instance hardness of validation set')
 
     parser.add_argument('--dynamic-selection', dest='dynamic_selection',

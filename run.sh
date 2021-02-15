@@ -1,12 +1,66 @@
 #!/bin/sh
 
-python main.py --no-pruning --dataset=kc2
-python main.py --no-pruning --dataset=pc1
+# KC2 
 
-python main.py --pruning --dataset=kc2 --hardnesses=all_instances
-python main.py --pruning --dataset=kc2 --hardnesses=easy
-python main.py --pruning --dataset=kc2 --hardnesses=hard
+## OLA
+python main.py --dynamic-selection --dynamic-algorithm=ola --dataset=kc2 --hardness=all_instances
+python main.py --dynamic-selection --dynamic-algorithm=ola --dataset=kc2 --hardness=easy
+python main.py --dynamic-selection --dynamic-algorithm=ola --dataset=kc2 --hardness=hard
 
-python main.py --pruning --dataset=pc1 --hardnesses=all_instances
-python main.py --pruning --dataset=pc1 --hardnesses=easy
-python main.py --pruning --dataset=pc1 --hardnesses=hard
+## LCA
+python main.py --dynamic-selection --dynamic-algorithm=lca --dataset=kc2 --hardness=all_instances
+python main.py --dynamic-selection --dynamic-algorithm=lca --dataset=kc2 --hardness=easy
+python main.py --dynamic-selection --dynamic-algorithm=lca --dataset=kc2 --hardness=hard
+
+## MCB
+python main.py --dynamic-selection --dynamic-algorithm=mcb --dataset=kc2 --hardness=all_instances
+python main.py --dynamic-selection --dynamic-algorithm=mcb --dataset=kc2 --hardness=easy
+python main.py --dynamic-selection --dynamic-algorithm=mcb --dataset=kc2 --hardness=hard
+
+## KNORA-U
+python main.py --dynamic-selection --dynamic-algorithm=knorau --dataset=kc2 --hardness=all_instances
+python main.py --dynamic-selection --dynamic-algorithm=knorau --dataset=kc2 --hardness=easy
+python main.py --dynamic-selection --dynamic-algorithm=knorau --dataset=kc2 --hardness=hard
+
+## KNORA-E
+python main.py --dynamic-selection --dynamic-algorithm=kne --dataset=kc2 --hardness=all_instances
+python main.py --dynamic-selection --dynamic-algorithm=kne --dataset=kc2 --hardness=easy
+python main.py --dynamic-selection --dynamic-algorithm=kne --dataset=kc2 --hardness=hard
+
+
+# jm1
+
+## OLA
+python main.py --dynamic-selection --dynamic-algorithm=ola --dataset=jm1 --hardness=all_instances
+python main.py --dynamic-selection --dynamic-algorithm=ola --dataset=jm1 --hardness=easy
+python main.py --dynamic-selection --dynamic-algorithm=ola --dataset=jm1 --hardness=hard
+
+## LCA
+python main.py --dynamic-selection --dynamic-algorithm=lca --dataset=jm1 --hardness=all_instances
+python main.py --dynamic-selection --dynamic-algorithm=lca --dataset=jm1 --hardness=easy
+python main.py --dynamic-selection --dynamic-algorithm=lca --dataset=jm1 --hardness=hard
+
+## MCB
+python main.py --dynamic-selection --dynamic-algorithm=mcb --dataset=jm1 --hardness=all_instances
+python main.py --dynamic-selection --dynamic-algorithm=mcb --dataset=jm1 --hardness=easy
+python main.py --dynamic-selection --dynamic-algorithm=mcb --dataset=jm1 --hardness=hard
+
+## KNORA-U
+python main.py --dynamic-selection --dynamic-algorithm=knorau --dataset=jm1 --hardness=all_instances
+python main.py --dynamic-selection --dynamic-algorithm=knorau --dataset=jm1 --hardness=easy
+python main.py --dynamic-selection --dynamic-algorithm=knorau --dataset=jm1 --hardness=hard
+
+## KNORA-E
+python main.py --dynamic-selection --dynamic-algorithm=kne --dataset=jm1 --hardness=all_instances
+python main.py --dynamic-selection --dynamic-algorithm=kne --dataset=jm1 --hardness=easy
+python main.py --dynamic-selection --dynamic-algorithm=kne --dataset=jm1 --hardness=hard
+
+
+
+python main.py --dataset=jm1 --hardness=all_instances
+python main.py --dataset=jm1 --hardness=easy
+python main.py --dataset=jm1 --hardness=hard
+
+python main.py --dataset=kc2 --hardness=all_instances
+python main.py --dataset=kc2 --hardness=easy
+python main.py --dataset=kc2 --hardness=hard

@@ -4,16 +4,15 @@ from deslib.util.diversity import double_fault
 from sklearn.metrics import accuracy_score, f1_score, roc_auc_score, precision_score, recall_score
 import numpy as np
 
-def get_validation_data(X, y, threshold = 0.5, hardnesses='hard'):
+def get_validation_data(X, y, threshold = 0.5, hardness='hard'):
     score, kdn_neighbors = kdn_score(X, y, k=5)
-    if hardnesses == 'hard':
-        indices = np.where(score>0.5)
-    elif hardnesses == 'easy':
-        indices = np.where(score<=0.5)
+    if hardness == 'hard':
+        indices = np.where(score>threshold)
+    elif hardness == 'easy':
+        indices = np.where(score<=threshold)
     else:
         # original data with all their instances
-        indices = np.where(score>=0.0)
-
+        indices = np.where(score>=0.0) 
     return X[indices], y[indices]
 
 

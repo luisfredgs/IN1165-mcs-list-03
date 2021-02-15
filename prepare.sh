@@ -8,5 +8,7 @@ then
 else
     wget -nc http://promise.site.uottawa.ca/SERepository/datasets/kc2.arff
     wget -nc http://promise.site.uottawa.ca/SERepository/datasets/pc1.arff
+    
+    wget -nc http://promise.site.uottawa.ca/SERepository/datasets/jm1.arff
     mv *.arff data
 fi 
