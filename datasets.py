@@ -23,23 +23,6 @@ def dataset_kc2():
     Y = le.transform(df['problems']) 
     return 'kc2', X, Y
 
-def dataset_pc1():
-    """PC1 Software defect prediction"""
-
-    data = arff.loadarff("data/pc1.arff")
-    df = pd.DataFrame(data[0])
-    #print(df.info())
-
-    le = preprocessing.LabelEncoder()
-    le.fit(df['defects'])
-
-    X = df.drop(['defects'], axis=1).to_numpy()
-
-    sc = StandardScaler()
-    X = sc.fit_transform(X)
-    Y = le.transform(df['defects']) 
-    return 'pc1', X, Y
-
 
 def dataset_jm1():
     """PC1 Software defect prediction"""
